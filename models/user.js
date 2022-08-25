@@ -42,18 +42,18 @@ const userSchema = new mongoose.Schema({
       required: true,
     },
   },
-//   bookmarks: {
-//     type: Array,
-//     default: "user",
-//   },
-//   followers: {
-//     type: Array,
-//     default: "user",
-//   },
-//   followings: {
-//     type: Array,
-//     default: "user",
-//   },
+  //   bookmarks: {
+  //     type: Array,
+  //     default: "user",
+  //   },
+  //   followers: {
+  //     type: Array,
+  //     default: "user",
+  //   },
+  //   followings: {
+  //     type: Array,
+  //     default: "user",
+  //   },
   role: {
     type: String,
     default: "user",
@@ -63,5 +63,11 @@ const userSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
+userSchema.methods.getJwtToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRY,
+  });
+};
 
 module.exports = mongoose.model("User", userSchema);
