@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const jwt = require('jsonwebtoken');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please provide a name"],
     maxLength: [40, "Name Should be under 40 characters"],
   },
   email: {
     type: String,
-    required: [true, "Please provide a email"],
+    // required: [true, "Please provide a email"],
     validate: [validator.isEmail, "Please enter a valid email"],
     unique: true,
   },
@@ -25,21 +25,21 @@ const userSchema = new mongoose.Schema({
   profileImg: {
     id: {
       type: String,
-      required: true,
+      // required: true,
     },
     secure_url: {
       type: String,
-      required: true,
+      // required: true,
     },
   },
   coverImg: {
     id: {
       type: String,
-      required: true,
+      // required: true,
     },
     secure_url: {
       type: String,
-      required: true,
+      // required: true,
     },
   },
   //   bookmarks: {
