@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     // required: [true, "Please provide a email"],
     validate: [validator.isEmail, "Please enter a valid email"],
+    default: "empty@something.com",
     unique: true,
   },
   walletAddress: {
@@ -18,42 +19,31 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  role: {
-    type: String,
-    default: "user",
-  },
   profileImg: {
-    id: {
-      type: String,
-      // required: true,
-    },
-    secure_url: {
-      type: String,
-      // required: true,
-    },
+    type: String,
   },
   coverImg: {
-    id: {
-      type: String,
-      // required: true,
-    },
-    secure_url: {
-      type: String,
-      // required: true,
-    },
+    type: String,
   },
-  //   bookmarks: {
-  //     type: Array,
-  //     default: "user",
-  //   },
-  //   followers: {
-  //     type: Array,
-  //     default: "user",
-  //   },
-  //   followings: {
-  //     type: Array,
-  //     default: "user",
-  //   },
+  bookmarks: {
+    type: Number,
+    default: 0,
+  },
+  followers: {
+    type: Number,
+    default: 0,
+  },
+  followings: {
+    type: Number,
+    default: 0,
+  },
+  shortUrl: {
+    type: String,
+  },
+  emailConfirmed: {
+    type: Boolean,
+    default: false,
+  },
   role: {
     type: String,
     default: "user",

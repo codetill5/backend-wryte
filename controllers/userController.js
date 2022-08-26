@@ -4,16 +4,34 @@ const CustomError = require("../utils/customError");
 const cookieToken = require("../utils/cookieToken");
 
 exports.signup = BigPromise(async (req, res, next) => {
-  const { walletAddress, name, email } = req.body;
+  const {
+    name,
+    email,
+    walletAddress,
+    profileImg,
+    coverImg,
+    bookmarks,
+    followers,
+    followings,
+    shortUrl,
+    emailConfirmed,
+  } = req.body;
 
   if (!walletAddress) {
     return next(new CustomError("Please sign the message", 400));
   }
 
   const user = await User.create({
-    walletAddress,
-    name, 
+    name,
     email,
+    walletAddress,
+    profileImg,
+    coverImg,
+    bookmarks,
+    followers,
+    followings,
+    shortUrl,
+    emailConfirmed,
   });
 
   cookieToken(user, res);
