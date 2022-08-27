@@ -8,6 +8,7 @@ const {
   getLoggedInUserDetails,
   updateUserDetails,
   allUser,
+  getSingleUser
 } = require("../controllers/userController");
 const { isLoggedIn, isAdmin } = require("../middlewares/user");
 
@@ -20,6 +21,7 @@ router.route("/user/update").post(isLoggedIn, updateUserDetails);
 
 //Admin
 router.route("/admin/users").get(isLoggedIn, isAdmin('admin'), allUser);
+router.route("/admin/user/:id").get(isLoggedIn, isAdmin('admin'), getSingleUser);
 
 
 
