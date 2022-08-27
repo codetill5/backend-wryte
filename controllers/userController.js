@@ -160,6 +160,24 @@ exports.updateUser = BigPromise(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+    message: "User updated"
   });
 
 });
+
+
+exports.deleteUser = BigPromise(async (req, res, next) => {
+  const user = await User.findById(req.params.id)
+
+  if(!user){
+    return next(new CustomError('No such user found!', 401))
+  }
+
+  await user.remove()
+
+  res.status(200).json({
+    success: true,
+    message: "User Deleted"
+  })
+
+})

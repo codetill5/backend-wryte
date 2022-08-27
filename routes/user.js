@@ -9,7 +9,8 @@ const {
   updateUserDetails,
   allUser,
   getSingleUser,
-  updateUser
+  updateUser,
+  deleteUser
 } = require("../controllers/userController");
 const { isLoggedIn, isAdmin } = require("../middlewares/user");
 
@@ -26,7 +27,7 @@ router
     .route("/admin/user/:id")
     .get(isLoggedIn, isAdmin('admin'), getSingleUser)
     .put(isLoggedIn, isAdmin("admin"), updateUser)
-
+    .delete(isLoggedIn, isAdmin("admin"), deleteUser)
 
 
 
