@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     // required: [true, "Please provide a email"],
     validate: [validator.isEmail, "Please enter a valid email"],
-    default: "empty@something.com",
+    default: "empty@somhing.com",
     unique: true,
   },
   walletAddress: {
