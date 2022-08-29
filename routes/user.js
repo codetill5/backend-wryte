@@ -10,7 +10,8 @@ const {
   allUser,
   getSingleUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUserById
 } = require("../controllers/userController");
 const { isLoggedIn, isAdmin } = require("../middlewares/user");
 
@@ -19,6 +20,7 @@ router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/logout").get(logout);
 router.route("/user").get(isLoggedIn, getLoggedInUserDetails);
+router.route("/user/:id").get(isLoggedIn, getUserById);
 router.route("/user/update").post(isLoggedIn, updateUserDetails);
 
 //Admin

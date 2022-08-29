@@ -122,6 +122,21 @@ exports.updateUserDetails = BigPromise(async (req, res, next) => {
   });
 });
 
+
+exports.getUserById = BigPromise(async (req, res, next) => {
+  const user = await User.findById(req.params.id)
+
+  if(!user) {
+    next(new CustomError("No user found", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
+  });
+
+});
+
 //Admin
 exports.allUser = BigPromise(async (req, res, next) => {
   const users = await User.find()
