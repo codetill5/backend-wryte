@@ -26,16 +26,13 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   bookmarks: {
-    type: Number,
-    default: 0,
+    type: Array,
   },
   followers: {
-    type: Number,
-    default: 0,
+    type: Array,
   },
   followings: {
-    type: Number,
-    default: 0,
+    type: Array,
   },
   shortUrl: {
     type: String,
