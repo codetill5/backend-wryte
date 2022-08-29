@@ -1,8 +1,34 @@
-const express = require('express')
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const  { signup } = require('../controllers/userController');
+const {
+  signup,
+  login,
+  logout,
+  getLoggedInUserDetails,
+  updateUserDetails,
+  allUser,
+  getSingleUser,
+  updateUser,
+  deleteUser
+} = require("../controllers/userController");
+const { isLoggedIn, isAdmin } = require("../middlewares/user");
 
-router.route('/signup').post(signup);
+// User 
+router.route("/signup").post(signup);
+router.route("/login").post(login);
+router.route("/logout").get(logout);
+router.route("/user").get(isLoggedIn, getLoggedInUserDetails);
+router.route("/user/update").post(isLoggedIn, updateUserDetails);
+
+//Admin
+router.route("/admin/users").get(isLoggedIn, isAdmin('admin'), allUser);
+router
+    .route("/admin/user/:id")
+    .get(isLoggedIn, isAdmin('admin'), getSingleUser)
+    .put(isLoggedIn, isAdmin("admin"), updateUser)
+    .delete(isLoggedIn, isAdmin("admin"), deleteUser)
+
+
 
 module.exports = router;
