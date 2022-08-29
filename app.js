@@ -16,9 +16,12 @@ app.use(morgan("tiny"));
 //routes
 const home = require("./routes/home");
 const user = require('./routes/user')
+const blog = require('./routes/blog')
+
 
 // router middleware 
 app.use("/api/v1", home);
 app.use("/api/v1", user);
+app.use("/api/v1", blog);
 
 module.exports = app;
