@@ -1,6 +1,7 @@
 const Blog = require("../models/blog");
 const Category = require("../models/category");
 const BigPromise = require("../middlewares/bigPromise");
+const WhereClause = require("../utils/whereClause");
 
 exports.addBlog = BigPromise(async (req, res, next) => {
   req.body.user = req.user.id;
@@ -34,7 +35,7 @@ res.status(200).json({
 });
 
 exports.getAllCatgories = BigPromise(async (req, res, next) => {
-  const allCategories = await Category.find();
+  const allCategories = await CategoSry.find();
 
   res.status(200).json({
     success: true,

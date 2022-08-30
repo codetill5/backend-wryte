@@ -6,6 +6,7 @@ const {
   addCategory,
   getAllBlogs,
   getAllCatgories,
+  searchBlog
 } = require("../controllers/blogController");
 const { isLoggedIn } = require("../middlewares/user");
 
