@@ -27,9 +27,9 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      clap: {
-        type: Number,
-        // required: true,
+      walletAddress: {
+        type: String,
+        required: true,
       },
       comment: {
         type: String,
