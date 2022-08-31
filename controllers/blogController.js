@@ -44,7 +44,7 @@ exports.addReview = BigPromise(async (req, res, next) => {
   const { comment, blogId } = req.body;
 
   const review = {
-    user: req.user.id,
+    user: req.user._id,
     name: req.user.name,
     walletAddress: req.user.walletAddress,
     comment,
@@ -55,6 +55,37 @@ exports.addReview = BigPromise(async (req, res, next) => {
   blog.numberOfComments = blog.reviews.length;
 
   await blog.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+
+//check
+exports.deleteReview = BigPromise(async (req, res, next) => {
+  const { blogId, reviewId } = req.query;
+
+  const blog = await Blog.findById(blogId);
+
+  const reviews = blog.reviews.filter(
+    (rev) => rev.user.toString() === req.user._id.toString()
+  );
+
+  const numberOfComments = reviews.length;
+
+  await Blog.findByIdAndUpdate(
+    blogId,
+    {
+      reviews,
+      numberOfComments,
+    },
+    {
+      new: true,
+      runValidators: true,
+      useFindAndModify: false,
+    }
+  );
 
   res.status(200).json({
     success: true,
