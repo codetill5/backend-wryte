@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     // required: [true, "Please provide a email"],
     validate: [validator.isEmail, "Please enter a valid email"],
-    default: "empty@somhing.com",
+    default: "empty@somhiaag.com",
     unique: true,
   },
   walletAddress: {
@@ -26,17 +26,24 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   bookmarks: {
-    type: Number,
-    default: 0,
+    type: Array,
   },
-  followers: {
-    type: Number,
-    default: 0,
-  },
-  followings: {
-    type: Number,
-    default: 0,
-  },
+  followers: [
+    {
+      id: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+  followings: [
+    {
+      id: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   shortUrl: {
     type: String,
   },

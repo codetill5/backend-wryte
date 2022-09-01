@@ -82,20 +82,19 @@ exports.login = BigPromise(async (req, res, next) => {
 });
 
 exports.logout = BigPromise(async (req, res, next) => {
-  res.cookie('token', null, {
+  res.cookie("token", null, {
     expires: new Date(Date.now()),
-    httpOnly: true
-  })
+    httpOnly: true,
+  });
   res.status(200).json({
     success: true,
-    message: "Successfully logout"
+    message: "Successfully logout",
   });
 });
 
-
 exports.getLoggedInUserDetails = BigPromise(async (req, res, next) => {
-  const user = await User.findById(req.user.id)
-  
+  const user = await User.findById(req.user.id);
+
   res.status(200).json({
     success: true,
     user,
@@ -108,40 +107,53 @@ exports.updateUserDetails = BigPromise(async (req, res, next) => {
     email: req.body.email,
     profileImg: req.body.profileImg,
     coverImg: req.body.coverImg,
-    shortUrl: req.body.shortUrl
-  }
+    shortUrl: req.body.shortUrl,
+  };
 
   const user = await User.findByIdAndUpdate(req.user.id, newData, {
     new: true,
     runValidators: true,
-    useFindAndModify: false
-  })
+    useFindAndModify: false,
+  });
 
   res.status(200).json({
     success: true,
   });
 });
 
-//Admin
-exports.allUser = BigPromise(async (req, res, next) => {
-  const users = await User.find()
+exports.getUserById = BigPromise(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
 
-  res.status(200).json({
-    success:true,
-    users,
-  });
-});
-
-exports.getSingleUser = BigPromise(async (req, res, next) => {
-  const user = await User.findById(req.params.id)
-
-  if(!user) {
+  if (!user) {
     next(new CustomError("No user found", 400));
   }
 
   res.status(200).json({
     success: true,
-    user
+    user,
+  });
+});
+
+//Admin
+exports.allUser = BigPromise(async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+    success: true,
+    users,
+  });
+});
+
+exports.getSingleUser = BigPromise(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    next(new CustomError("No user found", 400));
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
   });
 });
 
@@ -149,35 +161,91 @@ exports.updateUser = BigPromise(async (req, res, next) => {
   const newData = {
     name: req.body.name,
     email: req.body.email,
-    role: req.body.role
+    role: req.body.role,
   };
 
   const user = await User.findByIdAndUpdate(req.params.id, newData, {
     new: true,
     runValidators: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   });
 
   res.status(200).json({
     success: true,
-    message: "User updated"
+    message: "User updated",
   });
+});
 
+exports.deleteUser = BigPromise(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+    return next(new CustomError("No such user found!", 401));
+  }
+
+  await user.remove();
+
+  res.status(200).json({
+    success: true,
+    message: "User Deleted",
+  });
+});
+
+exports.follow = BigPromise(async (req, res, next) => {
+  const { userId } = req.body;
+
+  const following = {
+    id: userId,
+  };
+
+  const user = await User.findById(req.user._id);
+  user.followings.push(following);
+
+  await user.save({ validateBeforeSave: false });
+
+  const follower = {
+    id: req.user._id,
+  };
+
+  const user2 = await User.findById(userId);
+  user2.followers.push(follower);
+
+  await user2.save({ validateBeforeSave: false });
+
+  res.status(200).json({
+    success: true,
+    message: "followed",
+  });
 });
 
 
-exports.deleteUser = BigPromise(async (req, res, next) => {
-  const user = await User.findById(req.params.id)
+//check
+exports.unFollow = BigPromise(async (req, res, next) => {
+  const { userId } = req.body;
 
-  if(!user){
-    return next(new CustomError('No such user found!', 401))
-  }
+  const user = await User.findById(req.user._id);
+  // user.followings.filter((item) => item.id !== userId);
+  // user.followings
+  // await user.update({ validateBeforeSave: false });
+const id = "hello";
+  await User.findOneAndUpdate(
+    {
+      _id: req.user._id,
+    },
+    {
+      $pull: {
+        followings: userId,
+      },
+    }
+  );
 
-  await user.remove()
+  // const user2 = await User.findById(userId);
+  // user2.followers.filter((item) => item.id !== req.user._id);
+
+  // await user2.save({ validateBeforeSave: false });
 
   res.status(200).json({
     success: true,
-    message: "User Deleted"
-  })
-
-})
+    message: "unfollowed",
+  });
+});
