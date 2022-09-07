@@ -114,7 +114,7 @@ exports.reply = BigPromise(async (req, res, next) => {
   const replies = {
     id,
     message,
-    blogId
+    blogId,
   };
 
   const blog = await Blog.findById(blogId);
@@ -123,5 +123,15 @@ exports.reply = BigPromise(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
+  });
+});
+
+exports.allComments = BigPromise(async (req, res, next) => {
+  const blog = await Blog.findById(req.params.id);
+  const response = blog.reviews;
+
+  res.status(200).json({
+    success: true,
+    response,
   });
 });
