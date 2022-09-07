@@ -114,11 +114,12 @@ exports.addClaps = BigPromise(async (req, res, next) => {
 
 // can also update reply
 exports.reply = BigPromise(async (req, res, next) => {
-  const { id, message, blogId } = req.body;
+  const { commentId, message, blogId } = req.body;
 
   const replies = {
-    id,
+    commentId,
     message,
+    user: req.user._id,
     blogId,
   };
 
@@ -171,31 +172,36 @@ exports.getReplyOnComment = BigPromise(async (req, res, next) => {
   });
 });
 
-// exports.deleteReply = BigPromise(async (req, res, next) => {
-//   const { blogId, replyId } = req.query;
+exports.deleteReply = BigPromise(async (req, res, next) => {
+  const { blogId, replyId } = req.query;
 
-//   const blog = await Blog.findById(blogId);
+  const blog = await Blog.findById(blogId);
 
-//   const reviews = blog.reviews.filter(
-//     (rev) => rev.user.toString() === req.user._id.toString()
-//   );
+  // const specificReview = blog.reply.filter(
+  //   (rev) => rev.user.toString() === req.user._id.toString()
+  // );
 
-//   const numberOfComments = reviews.length;
+  // const reviews = specificReview.filter(
+  //   (item) => item._id.toString() !== replyId.toString()
+  // );
 
-//   await Blog.findByIdAndUpdate(
-//     blogId,
-//     {
-//       reviews,
-//       numberOfComments,
-//     },
-//     {
-//       new: true,
-//       runValidators: true,
-//       useFindAndModify: false,
-//     }
-//   );
+  // await Blog.findByIdAndUpdate(
+  //   blogId,
+  //   {
+  //     reviews,
+  //     numberOfComments,
+  //   },
+  //   {
+  //     new: true,
+  //     runValidators: true,
+  //     useFindAndModify: false,
+  //   }
+  // );
 
-//   res.status(200).json({
-//     success: true,
-//   });
-// });
+  res.status(200).json({
+    success: true,
+    // reviews,
+    // specificReview,
+    blog
+  });
+});

@@ -43,12 +43,17 @@ const blogSchema = new mongoose.Schema({
   ],
   reply: [
     {
-      id: {
+      commentId: {
         type: String,
         required: true,
       },
       message: {
         type: String,
+        required: true,
+      },
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
         required: true,
       },
     },
