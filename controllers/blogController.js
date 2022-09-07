@@ -135,3 +135,18 @@ exports.allComments = BigPromise(async (req, res, next) => {
     response,
   });
 });
+
+exports.getReplyOnComment = BigPromise(async (req, res, next) => {
+  const blog = await Blog.findById(req.params.blog);
+  const review = req.params.comment;
+  const reply = blog.reply;
+
+  const response = reply.filter(
+    (item) => item.id.toString() === review.toString()
+  );
+
+  res.status(200).json({
+    success: true,
+    response,
+  });
+});
