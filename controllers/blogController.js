@@ -40,6 +40,7 @@ exports.getAllCatgories = BigPromise(async (req, res, next) => {
   });
 });
 
+// can also be update the review
 exports.addReview = BigPromise(async (req, res, next) => {
   const { comment, blogId } = req.body;
 
@@ -61,14 +62,17 @@ exports.addReview = BigPromise(async (req, res, next) => {
   });
 });
 
-//check
 exports.deleteReview = BigPromise(async (req, res, next) => {
-  const { blogId, reviewId } = req.query;
+  const { blogId, commentId } = req.query;
 
   const blog = await Blog.findById(blogId);
 
-  const reviews = blog.reviews.filter(
+  const specificReview = blog.reviews.filter(
     (rev) => rev.user.toString() === req.user._id.toString()
+  );
+
+  const reviews = specificReview.filter(
+    (item) => item._id.toString() !== commentId.toString()
   );
 
   const numberOfComments = reviews.length;
@@ -108,6 +112,7 @@ exports.addClaps = BigPromise(async (req, res, next) => {
   });
 });
 
+// can also update reply
 exports.reply = BigPromise(async (req, res, next) => {
   const { id, message, blogId } = req.body;
 
@@ -150,3 +155,47 @@ exports.getReplyOnComment = BigPromise(async (req, res, next) => {
     response,
   });
 });
+
+exports.getReplyOnComment = BigPromise(async (req, res, next) => {
+  const blog = await Blog.findById(req.params.blog);
+  const review = req.params.comment;
+  const reply = blog.reply;
+
+  const response = reply.filter(
+    (item) => item.id.toString() === review.toString()
+  );
+
+  res.status(200).json({
+    success: true,
+    response,
+  });
+});
+
+// exports.deleteReply = BigPromise(async (req, res, next) => {
+//   const { blogId, replyId } = req.query;
+
+//   const blog = await Blog.findById(blogId);
+
+//   const reviews = blog.reviews.filter(
+//     (rev) => rev.user.toString() === req.user._id.toString()
+//   );
+
+//   const numberOfComments = reviews.length;
+
+//   await Blog.findByIdAndUpdate(
+//     blogId,
+//     {
+//       reviews,
+//       numberOfComments,
+//     },
+//     {
+//       new: true,
+//       runValidators: true,
+//       useFindAndModify: false,
+//     }
+//   );
+
+//   res.status(200).json({
+//     success: true,
+//   });
+// });
