@@ -31,7 +31,23 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
       comment: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+  reply: [
+    {
+      id: {
+        type: String,
+        required: true,
+      },
+      message: {
         type: String,
         required: true,
       },

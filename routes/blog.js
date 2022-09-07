@@ -8,7 +8,8 @@ const {
   getAllCatgories,
   addClaps,
   addReview,
-  deleteReview
+  deleteReview,
+  reply
 } = require("../controllers/blogController");
 const { isLoggedIn } = require("../middlewares/user");
 
@@ -19,5 +20,6 @@ router.route("/categories").get(getAllCatgories);
 router.route("/clap/:id").get(isLoggedIn, addClaps);
 router.route("/review").put(isLoggedIn, addReview);
 router.route("/review").delete(isLoggedIn, deleteReview);
+router.route("/reply").put(isLoggedIn, reply)
 
 module.exports = router;

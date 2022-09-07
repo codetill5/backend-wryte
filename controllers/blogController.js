@@ -61,7 +61,6 @@ exports.addReview = BigPromise(async (req, res, next) => {
   });
 });
 
-
 //check
 exports.deleteReview = BigPromise(async (req, res, next) => {
   const { blogId, reviewId } = req.query;
@@ -103,6 +102,24 @@ exports.addClaps = BigPromise(async (req, res, next) => {
     runValidators: true,
     useFindAndModify: false,
   });
+
+  res.status(200).json({
+    success: true,
+  });
+});
+
+exports.reply = BigPromise(async (req, res, next) => {
+  const { id, message, blogId } = req.body;
+
+  const replies = {
+    id,
+    message,
+    blogId
+  };
+
+  const blog = await Blog.findById(blogId);
+  blog.reply.push(replies);
+  await blog.save({ validateBeforeSave: false });
 
   res.status(200).json({
     success: true,
