@@ -8,6 +8,10 @@ const blogSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  metadata: {
+    type: String,
+    required: true,
+  },
   claps: {
     type: Number,
     default: 0,
@@ -31,8 +35,29 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
       comment: {
         type: String,
+        required: true,
+      },
+    },
+  ],
+  reply: [
+    {
+      commentId: {
+        type: String,
+        required: true,
+      },
+      message: {
+        type: String,
+        required: true,
+      },
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
         required: true,
       },
     },

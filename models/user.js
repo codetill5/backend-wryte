@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     // required: [true, "Please provide a email"],
     validate: [validator.isEmail, "Please enter a valid email"],
-    default: "empty@somhiaag.com",
+    default: "empty@deeksha.com",
     unique: true,
   },
   walletAddress: {
@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   emailConfirmed: {
+    type: Boolean,
+    default: false,
+  },
+  isVerified: {
     type: Boolean,
     default: false,
   },
