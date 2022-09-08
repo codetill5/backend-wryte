@@ -12,7 +12,6 @@ const {
   reply,
   allComments,
   getReplyOnComment,
-  deleteReply,
 } = require("../controllers/blogController");
 const { isLoggedIn } = require("../middlewares/user");
 
@@ -26,6 +25,6 @@ router.route("/review").delete(isLoggedIn, deleteReview);
 router.route("/reply").put(isLoggedIn, reply);
 router.route("/comments/:id").get(isLoggedIn, allComments);
 router.route("/replies/:blog/:comment").get(isLoggedIn, getReplyOnComment);
-router.route("/reply").delete(isLoggedIn, deleteReply);
+// router.route("/reply").delete(isLoggedIn, deleteReply);
 
 module.exports = router;

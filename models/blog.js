@@ -8,6 +8,10 @@ const blogSchema = new mongoose.Schema({
     type: Array,
     required: true,
   },
+  metadata: {
+    type: String,
+    required: true,
+  },
   claps: {
     type: Number,
     default: 0,
