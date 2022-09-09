@@ -9,10 +9,13 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    // required: [true, "Please provide a email"],
     validate: [validator.isEmail, "Please enter a valid email"],
-    default: "empty@deeksha.com",
+    default: function () {
+      const random = (Math.random() + 1).toString(36).substring(7).toString();
+      return `${random}@noemail.com`;
+    },
     unique: true,
+    lowercase: true,
   },
   walletAddress: {
     type: String,
@@ -21,6 +24,9 @@ const userSchema = new mongoose.Schema({
   },
   profileImg: {
     type: String,
+    default: function () {
+      return (Math.floor(Math.random() * (5 - 0 + 1)) + 0).toString();
+    },
   },
   coverImg: {
     type: String,
