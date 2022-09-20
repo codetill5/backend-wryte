@@ -202,6 +202,70 @@ exports.deleteReply = BigPromise(async (req, res, next) => {
     success: true,
     // reviews,
     // specificReview,
-    blog
+    blog,
   });
+});
+
+exports.upVote = BigPromise(async (req, res, next) => {
+  const { blogId } = req.body;
+  const blog = await Blog.findById(blogId);
+
+  const check = blog.upVote.some(
+    (e) => e.user.toString() === req.user._id.toString()
+  );
+
+  const review = {
+    user: req.user._id,
+  };
+
+  if (!check) {
+    blog.upVote.push(review);
+    await blog.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      success: true,
+    });
+  } else {
+    await Blog.findOneAndUpdate(
+      { _id: blogId },
+      { $pull: { upVote: { user: req.user._id } } },
+      { safe: true, multi: false }
+    );
+    res.status(200).json({
+      success: true,
+      message: "un-vote",
+    });
+  }
+});
+
+exports.downVote = BigPromise(async (req, res, next) => {
+  const { blogId } = req.body;
+  const blog = await Blog.findById(blogId);
+
+  const check = blog.downVote.some(
+    (e) => e.user.toString() === req.user._id.toString()
+  );
+
+  const review = {
+    user: req.user._id,
+  };
+
+  if (!check) {
+    blog.downVote.push(review);
+    await blog.save({ validateBeforeSave: false });
+
+    res.status(200).json({
+      success: true,
+    });
+  } else {
+    await Blog.findOneAndUpdate(
+      { _id: blogId },
+      { $pull: { downVote: { user: req.user._id } } },
+      { safe: true, multi: false }
+    );
+    res.status(200).json({
+      success: true,
+      message: "un-downvote",
+    });
+  }
 });

@@ -67,6 +67,24 @@ const blogSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  upVote: [
+    {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+      },
+    },
+  ],
+  downVote: [
+    {
+      user: {
+        type: mongoose.Schema.ObjectId,
+        ref: "User",
+        required: true,
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
