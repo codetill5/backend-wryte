@@ -28,6 +28,12 @@ const userSchema = new mongoose.Schema({
       return (Math.floor(Math.random() * (5 - 0 + 1)) + 0).toString();
     },
   },
+  bio: {
+    type: String,
+  },
+  designation: {
+    type: String,
+  },
   coverImg: {
     type: String,
   },
