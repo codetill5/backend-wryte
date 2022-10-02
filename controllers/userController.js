@@ -108,6 +108,8 @@ exports.updateUserDetails = BigPromise(async (req, res, next) => {
     profileImg: req.body.profileImg,
     coverImg: req.body.coverImg,
     shortUrl: req.body.shortUrl,
+    bio: req.body.bio,
+    designation: req.body.designation
   };
 
   const user = await User.findByIdAndUpdate(req.user.id, newData, {
