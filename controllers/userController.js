@@ -109,7 +109,13 @@ exports.updateUserDetails = BigPromise(async (req, res, next) => {
     coverImg: req.body.coverImg,
     shortUrl: req.body.shortUrl,
     bio: req.body.bio,
-    designation: req.body.designation
+    designation: req.body.designation,
+    social: {
+      twitter: req.body.twitter,
+      telegram: req.body.telegram,
+      instagram: req.body.instagram,
+      web: req.body.web,
+    },
   };
 
   const user = await User.findByIdAndUpdate(req.user.id, newData, {
@@ -220,7 +226,6 @@ exports.follow = BigPromise(async (req, res, next) => {
   });
 });
 
-
 //check
 exports.unFollow = BigPromise(async (req, res, next) => {
   const { userId } = req.body;
@@ -229,7 +234,7 @@ exports.unFollow = BigPromise(async (req, res, next) => {
   // user.followings.filter((item) => item.id !== userId);
   // user.followings
   // await user.update({ validateBeforeSave: false });
-const id = "hello";
+  const id = "hello";
   await User.findOneAndUpdate(
     {
       _id: req.user._id,

@@ -34,6 +34,12 @@ const userSchema = new mongoose.Schema({
   designation: {
     type: String,
   },
+  social: {
+    twitter: String,
+    telegram: String,
+    instagram: String,
+    web: String,
+  },
   coverImg: {
     type: String,
   },
